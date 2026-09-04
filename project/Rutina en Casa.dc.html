@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFE9E1;font-family:Nunito,system-ui,sans-serif}
+a{color:#6E8B6A}a:hover{color:#57704F}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 24px;box-sizing:border-box">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="402px" height="874px" hint-size="402px,874px">
+<div style="height:100%;background:#FAF7F2;color:#2E2A26;font-family:Nunito,system-ui,sans-serif;position:relative;overflow:hidden">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="height:100%;overflow:auto;padding:66px 22px 46px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px;animation:riseIn .3s ease">
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <div style="font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9C9187">Rutina en casa</div>
+    <div style="font-size:30px;font-weight:800;line-height:1.15;text-wrap:pretty">Elige el día que quieras hacer hoy</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <button type="button" onClick="{{ startA }}" style="display:flex;align-items:center;gap:16px;width:100%;text-align:left;border:none;cursor:pointer;background:#E7EFE3;border-radius:24px;padding:22px 20px;font-family:inherit;color:#2E2A26" style-hover="background:#DEE9D8">
+      <span style="width:56px;height:56px;flex:none;border-radius:18px;background:#6E8B6A;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800">A</span>
+      <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+        <span style="font-size:23px;font-weight:800">Día A</span>
+        <span style="font-size:17px;color:#5C6B58">Fuerza de base</span>
+        <span style="font-size:15px;color:#8A9285">{{ lastA }}</span>
+      </span>
+    </button>
+    <button type="button" onClick="{{ startB }}" style="display:flex;align-items:center;gap:16px;width:100%;text-align:left;border:none;cursor:pointer;background:#F7E8E0;border-radius:24px;padding:22px 20px;font-family:inherit;color:#2E2A26" style-hover="background:#F1DDD2">
+      <span style="width:56px;height:56px;flex:none;border-radius:18px;background:#C2714F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800">B</span>
+      <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+        <span style="font-size:23px;font-weight:800">Día B</span>
+        <span style="font-size:17px;color:#7A5443">Circuito activador</span>
+        <span style="font-size:15px;color:#A48D80">{{ lastB }}</span>
+      </span>
+    </button>
+    <button type="button" onClick="{{ startC }}" style="display:flex;align-items:center;gap:16px;width:100%;text-align:left;border:none;cursor:pointer;background:#F5EDDC;border-radius:24px;padding:22px 20px;font-family:inherit;color:#2E2A26" style-hover="background:#EFE4CD">
+      <span style="width:56px;height:56px;flex:none;border-radius:18px;background:#A8823C;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800">C</span>
+      <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+        <span style="font-size:23px;font-weight:800">Día C</span>
+        <span style="font-size:17px;color:#6E5A2E">Postura y equilibrio</span>
+        <span style="font-size:15px;color:#9C8B66">{{ lastC }}</span>
+      </span>
+    </button>
+  </div>
+
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
+    <button type="button" onClick="{{ goProgress }}" style="border:1.5px solid #DCD3C7;background:transparent;border-radius:18px;padding:17px;font-size:18px;font-weight:700;font-family:inherit;color:#4A443D;cursor:pointer" style-hover="background:#F1EBE1">Ver mi semana</button>
+    <button type="button" onClick="{{ openPain }}" style="border:none;background:transparent;padding:8px;font-size:16px;font-weight:600;font-family:inherit;color:#9C9187;cursor:pointer;text-decoration:underline">¿Sientes dolor?</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isWarmup }}" hint-placeholder-val="{{ false }}">
+<div style="height:100%;overflow:auto;padding:60px 22px 46px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;animation:riseIn .3s ease">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <button type="button" onClick="{{ goHome }}" style="border:none;background:#F1EBE1;border-radius:14px;width:48px;height:48px;font-size:22px;font-weight:800;font-family:inherit;color:#4A443D;cursor:pointer">‹</button>
+    <span style="font-size:16px;font-weight:700;color:#9C9187">{{ dayTitle }}</span>
+  </div>
+  <div style="font-size:28px;font-weight:800;line-height:1.2">Calentamiento</div>
+  <div style="font-size:17px;color:#6B635B;line-height:1.5">Haz cada paso una vez, con calma. No es una serie, es para entrar en calor.</div>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{ warmup }}" as="it" hint-placeholder-count="4">
+      <button type="button" onClick="{{ it.toggle }}" style="display:flex;align-items:center;gap:14px;text-align:left;width:100%;border:1.5px solid #E4DCD0;background:#fff;border-radius:20px;padding:16px 16px;font-family:inherit;font-size:18px;color:#2E2A26;cursor:pointer;min-height:64px">
+        <sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}">
+          <span style="width:34px;height:34px;flex:none;border-radius:11px;background:#6E8B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800">✓</span>
+        </sc-if>
+        <sc-if value="{{ it.pending }}" hint-placeholder-val="{{ true }}">
+          <span style="width:34px;height:34px;flex:none;border-radius:11px;border:2px solid #DCD3C7"></span>
+        </sc-if>
+        <span style="line-height:1.35">{{ it.text }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
+    <button type="button" onClick="{{ goFirstExercise }}" style="border:none;background:#2E2A26;color:#FAF7F2;border-radius:20px;padding:20px;font-size:20px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px">Empezar ejercicios</button>
+    <button type="button" onClick="{{ openPain }}" style="border:none;background:transparent;padding:8px;font-size:16px;font-weight:600;font-family:inherit;color:#9C9187;cursor:pointer;text-decoration:underline">¿Sientes dolor?</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isExercise }}" hint-placeholder-val="{{ false }}">
+<div style="height:100%;overflow:auto;padding:60px 22px 46px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;animation:riseIn .25s ease">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <button type="button" onClick="{{ goHome }}" style="border:none;background:#F1EBE1;border-radius:14px;width:48px;height:48px;font-size:22px;font-weight:800;font-family:inherit;color:#4A443D;cursor:pointer">‹</button>
+    <span style="font-size:16px;font-weight:700;color:#9C9187;text-align:right">{{ stepLabel }}</span>
+  </div>
+
+  <div style="font-size:29px;font-weight:800;line-height:1.15;text-wrap:pretty">{{ ex.name }}</div>
+
+  <sc-if value="{{ ex.hasImg }}" hint-placeholder-val="{{ false }}">
+  <div style="border-radius:22px;overflow:hidden;background:#fff;border:1.5px solid #E4DCD0;height:200px;display:flex;align-items:center;justify-content:center">
+    {{ ex.imgEl }}
+  </div>
+  </sc-if>
+  <sc-if value="{{ ex.noImg }}" hint-placeholder-val="{{ false }}">
+  <div style="border-radius:22px;overflow:hidden;background:#F1EBE1;height:170px;display:flex;align-items:center;justify-content:center;position:relative">
+    <svg width="100%" height="100%" viewBox="0 0 360 170" preserveAspectRatio="none" style="position:absolute;inset:0">
+      <defs><pattern id="stripes" width="14" height="14" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+        <rect width="14" height="14" fill="#F1EBE1"></rect><rect width="6" height="14" fill="#E7E0D4"></rect>
+      </pattern></defs>
+      <rect width="360" height="170" fill="url(#stripes)"></rect>
+    </svg>
+    <span style="position:relative;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#8A8177;background:#FAF7F2;padding:7px 12px;border-radius:10px">imagen de referencia</span>
+  </div>
+  </sc-if>
+
+  <div style="display:flex;gap:10px">
+    <div style="flex:1;background:#fff;border:1.5px solid #E4DCD0;border-radius:18px;padding:14px 12px;display:flex;flex-direction:column;gap:4px">
+      <span style="font-size:14px;font-weight:700;color:#9C9187;text-transform:uppercase;letter-spacing:.08em">Haz</span>
+      <span style="font-size:19px;font-weight:800;line-height:1.2">{{ ex.reps }}</span>
+    </div>
+    <button type="button" onClick="{{ openRir }}" style="flex:1;background:#fff;border:1.5px solid #E4DCD0;border-radius:18px;padding:14px 12px;display:flex;flex-direction:column;gap:4px;text-align:left;font-family:inherit;color:#2E2A26;cursor:pointer">
+      <span style="font-size:14px;font-weight:700;color:#9C9187;text-transform:uppercase;letter-spacing:.08em">Esfuerzo (?)</span>
+      <span style="font-size:19px;font-weight:800;line-height:1.2">{{ ex.rir }}</span>
+    </button>
+    <div style="flex:1;background:#fff;border:1.5px solid #E4DCD0;border-radius:18px;padding:14px 12px;display:flex;flex-direction:column;gap:4px">
+      <span style="font-size:14px;font-weight:700;color:#9C9187;text-transform:uppercase;letter-spacing:.08em">Descanso</span>
+      <span style="font-size:19px;font-weight:800;line-height:1.2">{{ ex.rest }}</span>
+    </div>
+  </div>
+
+  <div style="background:#E7EFE3;border-radius:18px;padding:16px;font-size:17px;line-height:1.45;color:#3E4A3B">{{ ex.note }}</div>
+
+  <sc-if value="{{ isCircuit }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ completeSet }}" style="border:none;background:#C2714F;color:#fff;border-radius:20px;padding:22px;font-size:21px;font-weight:800;font-family:inherit;cursor:pointer;min-height:64px">Ejercicio hecho</button>
+  </sc-if>
+
+  <sc-if value="{{ isStraight }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <span style="font-size:16px;font-weight:700;color:#9C9187">Toca cada serie al terminarla</span>
+    <div style="display:flex;gap:10px">
+      <sc-for list="{{ sets }}" as="s" hint-placeholder-count="3">
+        <button type="button" onClick="{{ s.onClick }}" style="flex:1;border:none;border-radius:18px;padding:0;min-height:64px;font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;background:#fff;color:#2E2A26;box-shadow:inset 0 0 0 1.5px #E4DCD0">
+          <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}">
+            <span style="display:flex;align-items:center;justify-content:center;gap:6px;background:#6E8B6A;color:#fff;border-radius:18px;height:64px;margin:0">✓ {{ s.label }}</span>
+          </sc-if>
+          <sc-if value="{{ s.pending }}" hint-placeholder-val="{{ true }}">
+            <span style="display:flex;align-items:center;justify-content:center;height:64px;color:#6B635B">{{ s.label }}</span>
+          </sc-if>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:14px">
+    <button type="button" onClick="{{ nextExercise }}" style="border:none;background:#2E2A26;color:#FAF7F2;border-radius:20px;padding:20px;font-size:20px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px">{{ nextLabel }}</button>
+    <button type="button" onClick="{{ openPain }}" style="border:none;background:transparent;padding:8px;font-size:16px;font-weight:600;font-family:inherit;color:#9C9187;cursor:pointer;text-decoration:underline">¿Sientes dolor?</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isCooldown }}" hint-placeholder-val="{{ false }}">
+<div style="height:100%;overflow:auto;padding:60px 22px 46px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;animation:riseIn .3s ease">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <button type="button" onClick="{{ goHome }}" style="border:none;background:#F1EBE1;border-radius:14px;width:48px;height:48px;font-size:22px;font-weight:800;font-family:inherit;color:#4A443D;cursor:pointer">‹</button>
+    <span style="font-size:16px;font-weight:700;color:#9C9187">{{ dayTitle }}</span>
+  </div>
+  <div style="font-size:28px;font-weight:800;line-height:1.2">Enfriamiento</div>
+  <div style="font-size:17px;color:#6B635B;line-height:1.5">Ya terminaste la parte fuerte. Cierra con esto, sin prisa.</div>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{ cooldown }}" as="it" hint-placeholder-count="3">
+      <button type="button" onClick="{{ it.toggle }}" style="display:flex;align-items:center;gap:14px;text-align:left;width:100%;border:1.5px solid #E4DCD0;background:#fff;border-radius:20px;padding:16px;font-family:inherit;font-size:18px;color:#2E2A26;cursor:pointer;min-height:64px">
+        <sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}">
+          <span style="width:34px;height:34px;flex:none;border-radius:11px;background:#6E8B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800">✓</span>
+        </sc-if>
+        <sc-if value="{{ it.pending }}" hint-placeholder-val="{{ true }}">
+          <span style="width:34px;height:34px;flex:none;border-radius:11px;border:2px solid #DCD3C7"></span>
+        </sc-if>
+        <span style="line-height:1.35">{{ it.text }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="margin-top:auto">
+    <button type="button" onClick="{{ finishDay }}" style="width:100%;border:none;background:#6E8B6A;color:#fff;border-radius:20px;padding:20px;font-size:20px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px">Terminar el día</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+<div style="height:100%;padding:60px 26px 46px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;text-align:center;animation:riseIn .35s ease">
+  <div style="width:96px;height:96px;border-radius:34px;background:#E7EFE3;color:#6E8B6A;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800">✓</div>
+  <div style="font-size:30px;font-weight:800;line-height:1.2">Listo, terminaste</div>
+  <div style="font-size:18px;color:#6B635B;line-height:1.5">{{ doneLine }}</div>
+  <div style="display:flex;flex-direction:column;gap:10px;align-self:stretch;margin-top:8px">
+    <button type="button" onClick="{{ goProgress }}" style="border:none;background:#2E2A26;color:#FAF7F2;border-radius:20px;padding:20px;font-size:19px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px">Ver mi semana</button>
+    <button type="button" onClick="{{ goHome }}" style="border:1.5px solid #DCD3C7;background:transparent;border-radius:20px;padding:18px;font-size:18px;font-weight:700;font-family:inherit;color:#4A443D;cursor:pointer;min-height:56px">Volver al inicio</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProgress }}" hint-placeholder-val="{{ false }}">
+<div style="height:100%;overflow:auto;padding:60px 22px 46px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px;animation:riseIn .3s ease">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button type="button" onClick="{{ goHome }}" style="border:none;background:#F1EBE1;border-radius:14px;width:48px;height:48px;font-size:22px;font-weight:800;font-family:inherit;color:#4A443D;cursor:pointer">‹</button>
+    <span style="font-size:16px;font-weight:700;color:#9C9187">Inicio</span>
+  </div>
+  <div style="font-size:28px;font-weight:800;line-height:1.2">Mi semana</div>
+  <div style="display:flex;gap:7px">
+    <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:7px">
+        <span style="font-size:15px;font-weight:700;color:#9C9187">{{ d.label }}</span>
+        <sc-if value="{{ d.done }}" hint-placeholder-val="{{ false }}">
+          <span style="width:100%;aspect-ratio:1;border-radius:14px;background:#6E8B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800">✓</span>
+        </sc-if>
+        <sc-if value="{{ d.pending }}" hint-placeholder-val="{{ true }}">
+          <span style="width:100%;aspect-ratio:1;border-radius:14px;background:#F1EBE1"></span>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+  <div style="font-size:18px;font-weight:700;color:#4A443D">{{ weekSummary }}</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="2">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #E4DCD0;border-radius:18px;padding:16px">
+        <span style="width:34px;height:34px;flex:none;border-radius:11px;background:#E7EFE3;color:#6E8B6A;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800">✓</span>
+        <span style="display:flex;flex-direction:column">
+          <span style="font-size:18px;font-weight:800">{{ s.title }}</span>
+          <span style="font-size:16px;color:#8A8177">{{ s.when }}</span>
+        </span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ timer.on }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(46,42,38,.55);display:flex;align-items:flex-end;z-index:80">
+  <div style="width:100%;background:#FAF7F2;border-radius:34px 34px 0 0;padding:36px 26px 52px;display:flex;flex-direction:column;align-items:center;gap:16px;animation:sheetUp .28s ease">
+    <div style="font-size:19px;font-weight:700;color:#6B635B">Descansa</div>
+    <div style="font-size:76px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums">{{ timer.text }}</div>
+    <div style="font-size:17px;color:#8A8177;text-align:center;line-height:1.45;max-width:280px">Respira tranquila. Te aviso cuando toque la siguiente serie.</div>
+    <button type="button" onClick="{{ skipRest }}" style="align-self:stretch;border:none;background:#2E2A26;color:#FAF7F2;border-radius:20px;padding:20px;font-size:19px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px;margin-top:6px">Saltar descanso</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPain }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(46,42,38,.55);display:flex;align-items:center;justify-content:center;padding:26px;z-index:90">
+  <div style="background:#FAF7F2;border-radius:28px;padding:26px;display:flex;flex-direction:column;gap:16px;animation:riseIn .25s ease">
+    <div style="font-size:23px;font-weight:800">¿Sientes dolor?</div>
+    <div style="font-size:18px;line-height:1.5;color:#4A443D;text-wrap:pretty">Molestia leve o cansancio está bien. Si sientes dolor agudo en la rodilla, detente y reduce el movimiento. Esto nunca es normal durante el ejercicio.</div>
+    <button type="button" onClick="{{ closePain }}" style="border:none;background:#2E2A26;color:#FAF7F2;border-radius:18px;padding:18px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px">Entendido</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showRir }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(46,42,38,.55);display:flex;align-items:center;justify-content:center;padding:26px;z-index:90">
+  <div style="background:#FAF7F2;border-radius:28px;padding:26px;display:flex;flex-direction:column;gap:16px;animation:riseIn .25s ease">
+    <div style="font-size:23px;font-weight:800">¿Qué es RIR?</div>
+    <div style="font-size:18px;line-height:1.5;color:#4A443D;text-wrap:pretty">Son las repeticiones que podrías hacer todavía al terminar la serie. RIR 3 significa parar cuando sientas que te quedan unas 3 más. No hay que llegar al límite.</div>
+    <button type="button" onClick="{{ closeRir }}" style="border:none;background:#2E2A26;color:#FAF7F2;border-radius:18px;padding:18px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;min-height:56px">Entendido</button>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:950},&quot;soundEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;},&quot;autoStartRest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;},&quot;showLastDone&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;}}">
+const N = (t) => t;
+
+const WARM_BASE = [
+  "Círculos de cadera sostenida de una pared",
+  "Movilidad de tobillo",
+  "20 marchas en el sitio elevando rodillas con control",
+  "10 sentadillas al aire sin dolor",
+];
+const COOL_BASE = [
+  "Estiramiento de cuádriceps de pie",
+  "Estiramiento de isquiotibiales sentada",
+  "1 min de respiración profunda",
+];
+
+const EX = {
+  silla: { img: "uploads/sentadilla%20en%20silla.jpeg", name: "Sentado-parado en silla", reps: "3 series de 8-10", rir: "RIR 3", rest: "90 seg", restSecs: 90, sets: 3, note: "La silla limita la flexión de rodilla, empuja con todo el pie." },
+  puente: { img: "uploads/puente%20de%20gluteo.jpeg", name: "Puente de glúteo", reps: "3 series de 12-15", rir: "RIR 2-3", rest: "60 seg", restSecs: 60, sets: 3, note: "Pausa 1-2 seg arriba." },
+  flexion: { img: "uploads/flexion%20en%20apoyada%20en%20banco.jpeg", name: "Flexión de brazos inclinada", reps: "3 series de 8-12", rir: "RIR 3", rest: "60-90 seg", restSecs: 90, sets: 3, note: "Manos en la mesa o encimera. Cuerpo recto, sin hundir la cadera." },
+  superman: { img: "uploads/superman.jpeg", name: "Superman", reps: "3 series de 10-12", rir: "RIR 2-3", rest: "60 seg", restSecs: 60, sets: 3, note: "Sube brazos y piernas juntos, sin forzar el cuello." },
+  plancha: { img: "uploads/plancha%20apoyada%20en%20rodillas.jpeg", name: "Plancha apoyada en rodillas", reps: "3 series de 20-30 seg", rir: "RIR 2", rest: "45 seg", restSecs: 45, sets: 3, note: "Abdomen firme, sin dejar caer la cadera." },
+  rumano: { img: "uploads/peso%20muerto%20a%20una%20pierna%20apoyado%20en%20pared.jpeg", name: "Peso muerto rumano a una pierna", reps: "8 reps de cada lado", rir: "RIR 3", rest: "al terminar la vuelta", restSecs: 90, sets: 1, note: "Apoyada en la pared. Pierna casi recta, sin doblar la rodilla de apoyo." },
+  talones: { img: "uploads/elevacion%20de%20talon.jpeg", name: "Elevación de talones", reps: "15 reps", rir: "RIR 2", rest: "al terminar la vuelta", restSecs: 90, sets: 1, note: "Sube lento, baja más lento." },
+  pajaro: { img: "uploads/perro-pajaro.jpeg", name: "Pájaro-perro", reps: "8 de cada lado", rir: "RIR 2-3", rest: "al terminar la vuelta", restSecs: 90, sets: 1, note: "Sin balancearse." },
+  escalon: { img: "uploads/subir%20escalon.jpeg", name: "Subida a escalón", reps: "6 de cada lado", rir: "RIR 3", rest: "90 seg entre vueltas", restSecs: 90, sets: 1, note: "Solo subir. Bajar despacio, sin dejar caer el peso." },
+  sillaLenta: { img: "uploads/sentadilla%20en%20silla.jpeg", name: "Sentado-parado en silla, bajando en 3 seg", reps: "3 series de 8", rir: "RIR 2-3", rest: "90 seg", restSecs: 90, sets: 3, note: "Cuenta tres segundos al bajar. Empuja con todo el pie." },
+  puenteUna: { img: "uploads/puente%20de%20gluteo.jpeg", name: "Puente de glúteo a una pierna", reps: "3 series de 10-12", rir: "RIR 2-3", rest: "60 seg", restSecs: 60, sets: 3, note: "Una pierna solo si se siente cómoda. Pausa 1-2 seg arriba." },
+  remo: { img: "uploads/halon%20al%20pecho%20con%20toalla.jpeg", name: "Remo con toalla contra la puerta", reps: "3 series de 12", rir: "RIR 2-3", rest: "60 seg", restSecs: 60, sets: 3, note: "O apretar los omóplatos contra la pared. Sentir que los omóplatos se juntan." },
+  marcha: { img: "uploads/marcha%20en%20el%20lugar.jpg", name: "Marcha en el sitio elevando rodillas", reps: "3 series de 45 seg", rir: "A ritmo cómodo", rest: "45 seg", restSecs: 45, sets: 3, note: "Rodillas a la altura que no moleste, brazos acompañando." },
+  planchaC: { img: "uploads/plancha%20apoyada%20en%20rodillas.jpeg", name: "Plancha apoyada en rodillas", reps: "3 series de 25-35 seg", rir: "RIR 2", rest: "45 seg", restSecs: 45, sets: 3, note: "Abdomen firme, sin dejar caer la cadera." },
+};
+
+const DAYS = {
+  A: { id: "A", title: "Día A · Fuerza de base", warmup: WARM_BASE, cooldown: COOL_BASE, circuit: false, rounds: 1,
+       ex: [EX.silla, EX.puente, EX.flexion, EX.superman, EX.plancha] },
+  B: { id: "B", title: "Día B · Circuito activador", warmup: WARM_BASE.concat(["10 elevaciones de talón"]), cooldown: COOL_BASE.concat(["Estiramiento de pantorrilla"]), circuit: true, rounds: 3,
+       ex: [EX.rumano, EX.talones, EX.pajaro, EX.escalon] },
+  C: { id: "C", title: "Día C · Postura y equilibrio", warmup: WARM_BASE, cooldown: COOL_BASE, circuit: false, rounds: 1,
+       ex: [EX.sillaLenta, EX.puenteUna, EX.remo, EX.marcha, EX.planchaC] },
+};
+
+const KEY = "rutina-casa-v1";
+const DAY_NAMES = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+
+class Component extends DCLogic {
+  state = {
+    screen: "home", dayId: null, exIdx: 0, round: 1,
+    setsDone: {}, checks: {}, timer: null,
+    showPain: false, showRir: false, rirSeen: false,
+    history: [], lastDay: null,
+  };
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        const d = JSON.parse(raw);
+        this.setState({ history: d.history || [], rirSeen: !!d.rirSeen });
+      }
+    } catch (e) {}
+  }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  persist(next) {
+    try { localStorage.setItem(KEY, JSON.stringify({ history: next.history, rirSeen: next.rirSeen })); } catch (e) {}
+  }
+
+  day() { return this.state.dayId ? DAYS[this.state.dayId] : null; }
+
+  start(id) {
+    this.setState({ screen: "warmup", dayId: id, exIdx: 0, round: 1, setsDone: {}, checks: {}, timer: null });
+  }
+
+  beep() {
+    if (this.props.soundEnabled === false) return;
+    try {
+      if (navigator.vibrate) navigator.vibrate([120, 80, 120]);
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AC();
+      [0, 0.32].forEach((t) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = "sine"; o.frequency.value = 588;
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(0.16, ctx.currentTime + t + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + t + 0.26);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.3);
+      });
+      setTimeout(() => ctx.close(), 1200);
+    } catch (e) {}
+  }
+
+  startRest(secs) {
+    clearInterval(this._iv);
+    this.setState({ timer: secs });
+    this._iv = setInterval(() => {
+      this.setState((s) => {
+        if (s.timer === null) return null;
+        if (s.timer <= 1) { clearInterval(this._iv); this.beep(); return { timer: null }; }
+        return { timer: s.timer - 1 };
+      });
+    }, 1000);
+  }
+  skipRest = () => { clearInterval(this._iv); this.setState({ timer: null }); };
+
+  completeSet = () => {
+    const d = this.day(); if (!d) return;
+    const i = this.state.exIdx;
+    if (d.circuit) {
+      const last = i === d.ex.length - 1;
+      if (last) {
+        if (this.state.round >= d.rounds) { this.setState({ screen: "cooldown" }); return; }
+        this.setState({ exIdx: 0, round: this.state.round + 1 });
+        this.startRest(90);
+      } else {
+        this.setState({ exIdx: i + 1 });
+      }
+      return;
+    }
+    const done = Math.min((this.state.setsDone[i] || 0) + 1, d.ex[i].sets);
+    const setsDone = Object.assign({}, this.state.setsDone, { [i]: done });
+    this.setState({ setsDone });
+    if (this.props.autoStartRest !== false) this.startRest(d.ex[i].restSecs);
+  };
+
+  setSet = (n) => {
+    const d = this.day(); const i = this.state.exIdx;
+    const cur = this.state.setsDone[i] || 0;
+    const val = cur >= n ? n - 1 : n;
+    const setsDone = Object.assign({}, this.state.setsDone, { [i]: val });
+    this.setState({ setsDone });
+    if (val > cur && this.props.autoStartRest !== false) this.startRest(d.ex[i].restSecs);
+  };
+
+  nextExercise = () => {
+    const d = this.day(); if (!d) return;
+    clearInterval(this._iv);
+    if (d.circuit) {
+      const last = this.state.exIdx === d.ex.length - 1;
+      if (last && this.state.round >= d.rounds) { this.setState({ screen: "cooldown", timer: null }); return; }
+      if (last) { this.setState({ exIdx: 0, round: this.state.round + 1, timer: null }); return; }
+      this.setState({ exIdx: this.state.exIdx + 1, timer: null });
+      return;
+    }
+    if (this.state.exIdx >= d.ex.length - 1) this.setState({ screen: "cooldown", timer: null });
+    else this.setState({ exIdx: this.state.exIdx + 1, timer: null });
+  };
+
+  finishDay = () => {
+    const entry = { day: this.state.dayId, at: Date.now() };
+    const history = this.state.history.concat([entry]);
+    this.setState({ history, screen: "done" });
+    this.persist({ history, rirSeen: this.state.rirSeen });
+  };
+
+  toggleCheck = (kind, idx) => {
+    const k = kind + idx;
+    const checks = Object.assign({}, this.state.checks);
+    checks[k] = !checks[k];
+    this.setState({ checks });
+  };
+
+  lastLabel(id) {
+    if (this.props.showLastDone === false) return "";
+    const times = this.state.history.filter((h) => h.day === id).map((h) => h.at);
+    if (!times.length) return "Aún no lo has hecho";
+    const days = Math.floor((Date.now() - Math.max.apply(null, times)) / 86400000);
+    if (days <= 0) return "Última vez: hoy";
+    if (days === 1) return "Última vez: ayer";
+    return "Última vez: hace " + days + " días";
+  }
+
+  renderVals() {
+    const s = this.state, d = this.day();
+    const ex = d ? d.ex[s.exIdx] : null;
+    const setsCount = ex ? ex.sets : 0;
+    const doneCount = s.setsDone[s.exIdx] || 0;
+    const sets = [];
+    for (let n = 1; n <= setsCount; n++) {
+      const done = n <= doneCount;
+      sets.push({ label: "Serie " + n, done, pending: !done, onClick: () => this.setSet(n) });
+    }
+    const mk = (kind, list) => list.map((text, i) => {
+      const done = !!s.checks[kind + i];
+      return { text, done, pending: !done, toggle: () => this.toggleCheck(kind, i) };
+    });
+
+    const now = new Date();
+    const monday = new Date(now); monday.setHours(0, 0, 0, 0);
+    monday.setDate(monday.getDate() - ((now.getDay() + 6) % 7));
+    const week = ["L", "M", "M", "J", "V", "S", "D"].map((label, i) => {
+      const start = monday.getTime() + i * 86400000;
+      const done = s.history.some((h) => h.at >= start && h.at < start + 86400000);
+      return { label, done, pending: !done };
+    });
+    const weekCount = week.filter((w) => w.done).length;
+    const sessions = s.history.slice().reverse().slice(0, 8).map((h) => {
+      const dt = new Date(h.at);
+      return { title: DAYS[h.day] ? DAYS[h.day].title : "Sesión", when: DAY_NAMES[dt.getDay()] + " " + dt.getDate() + " · " + dt.getHours() + ":" + String(dt.getMinutes()).padStart(2, "0") };
+    });
+
+    const t = s.timer;
+    const timer = { on: t !== null, text: t === null ? "" : Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0") };
+
+    const circuit = !!(d && d.circuit);
+    const stepLabel = !d ? "" : circuit
+      ? "Vuelta " + s.round + " de " + d.rounds + " · " + (s.exIdx + 1) + "/" + d.ex.length
+      : "Ejercicio " + (s.exIdx + 1) + " de " + d.ex.length;
+    const lastEx = d && s.exIdx === d.ex.length - 1 && (!circuit || s.round >= d.rounds);
+
+    return {
+      isHome: s.screen === "home", isWarmup: s.screen === "warmup", isExercise: s.screen === "exercise",
+      isCooldown: s.screen === "cooldown", isDone: s.screen === "done", isProgress: s.screen === "progress",
+      dayTitle: d ? d.title : "", stepLabel,
+      ex: Object.assign({}, ex || { name: "", reps: "", rir: "", rest: "", note: "" }, { hasImg: !!(ex && ex.img), noImg: !(ex && ex.img), imgEl: ex && ex.img ? React.createElement("img", { src: ex.img, alt: ex.name, style: { width: "100%", height: "100%", objectFit: "contain", padding: 8, boxSizing: "border-box" } }) : null }),
+      isCircuit: circuit, isStraight: !circuit,
+      sets, timer,
+      warmup: d ? mk("w", d.warmup) : [], cooldown: d ? mk("c", d.cooldown) : [],
+      nextLabel: lastEx ? "Ir al enfriamiento" : (circuit ? "Siguiente ejercicio" : "Siguiente ejercicio"),
+      lastA: this.lastLabel("A"), lastB: this.lastLabel("B"), lastC: this.lastLabel("C"),
+      week, weekCount, sessions,
+      weekSummary: weekCount === 0 ? "Todavía no hay días marcados esta semana." : (weekCount === 1 ? "1 día completado esta semana." : weekCount + " días completados esta semana."),
+      doneLine: d ? N("Marcamos el " + d.title.split(" · ")[0] + " en tu semana. Descansa y toma agua.") : "",
+      showPain: s.showPain, showRir: s.showRir,
+      startA: () => this.start("A"), startB: () => this.start("B"), startC: () => this.start("C"),
+      goHome: () => { clearInterval(this._iv); this.setState({ screen: "home", timer: null }); },
+      goProgress: () => this.setState({ screen: "progress" }),
+      goFirstExercise: () => this.setState({ screen: "exercise", exIdx: 0, round: 1 }),
+      completeSet: this.completeSet, nextExercise: this.nextExercise, finishDay: this.finishDay,
+      skipRest: this.skipRest,
+      openPain: () => this.setState({ showPain: true }), closePain: () => this.setState({ showPain: false }),
+      openRir: () => this.setState({ showRir: true }),
+      closeRir: () => { const rirSeen = true; this.setState({ showRir: false, rirSeen }); this.persist({ history: this.state.history, rirSeen }); },
+    };
+  }
+}
+
+</script>
+</body>
+</html>
